@@ -1,0 +1,106 @@
+#include <QtWidgets>
+
+class TextEditor : public QMainWindow
+{
+    Q_OBJECT
+
+public:
+    TextEditor(QWidget *parent = nullptr);
+    ~TextEditor();
+
+private slots:
+    void boldText();
+    void unboldText();
+    void superscriptText();
+    void subscriptText();
+    void aboutMe();
+
+private:
+    void createActions();
+    void createMenus();
+    void createToolBar();
+    void setupEditor();
+
+    QTextEdit *editor;
+    QAction *boldAct;
+    QAction *unboldAct;
+    QAction *superscriptAct;
+    QAction *subscriptAct;
+    QAction *aboutMeAct;
+};
+
+TextEditor::TextEditor(QWidget *parent)
+    : QMainWindow(parent)
+{
+    editor = new QTextEdit(this);
+    setCentralWidget(editor);
+
+    createActions();
+    createMenus();
+    createToolBar();
+
+    setupEditor();
+
+    setWindowTitle(tr("Text Editor"));
+    setMinimumSize(800, 600);
+}
+
+TextEditor::~TextEditor()
+{
+}
+
+void TextEditor::boldText()
+{
+    QTextCharFormat fmt;
+    fmt.setFontWeight(boldAct->isChecked() ? QFont::Bold : QFont::Normal);
+    editor->mergeCurrentCharFormat(fmt);
+}
+
+void TextEditor::unboldText()
+{
+    QTextCharFormat fmt;
+    fmt.setFontWeight(unboldAct->isChecked() ? QFont::Normal : QFont::Bold);
+    editor->mergeCurrentCharFormat(fmt);
+}
+
+void TextEditor::superscriptText()
+{
+    QTextCharFormat fmt;
+    fmt.setVerticalAlignment(QTextCharFormat::AlignSuperScript);
+    editor->mergeCurrentCharFormat(fmt);
+}
+
+void TextEditor::subscriptText()
+{
+    QTextCharFormat fmt;
+    fmt.setVerticalAlignment(QTextCharFormat::AlignSubScript);
+    editor->mergeCurrentCharFormat(fmt);
+}
+
+void TextEditor::aboutMe()
+{
+    QString resumeUrl = "https://drive.google.com/file/d/1BEXnTW63vZ_uYjSEPBfo3i1jpxB7LVYy/view?usp=drivesdk";
+    QMessageBox::information(this, tr("About Me"), tr("Resume: <a href='%1'>%1</a>").arg(resumeUrl));
+}
+
+void TextEditor::createActions()
+{
+    boldAct = new QAction(QIcon(":/icons/bold.png"), tr("Bold"), this);
+    boldAct->setShortcut(Qt::CTRL + Qt::Key_B);
+    boldAct->setCheckable(true);
+    connect(boldAct, &QAction::triggered, this, &TextEditor::boldText);
+
+    unboldAct = new QAction(QIcon(":/icons/unbold.png"), tr("Unbold"), this);
+    unboldAct->setShortcut(Qt::CTRL + Qt::SHIFT + Qt::Key_B);
+    unboldAct->setCheckable(true);
+    connect(unboldAct, &QAction::triggered, this, &TextEditor::unboldText);
+
+    superscriptAct = new QAction(QIcon(":/icons/superscript.png"), tr("Superscript"), this);
+    superscriptAct->setShortcut(Qt::CTRL + Qt::Key_P);
+    connect(superscriptAct, &QAction::triggered, this, &TextEditor::superscriptText);
+
+    subscriptAct = new QAction(QIcon(":/icons/subscript.png"), tr("Subscript"), this);
+    subscriptAct->setShortcut(Qt::CTRL + Qt::SHIFT + Qt::Key_P);
+    connect(subscriptAct, &QAction::triggered, this, &TextEditor::sub
+
+
