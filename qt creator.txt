@@ -102,5 +102,6 @@ void TextEditor::createActions()
     subscriptAct = new QAction(QIcon(":/icons/subscript.png"), tr("Subscript"), this);
     subscriptAct->setShortcut(Qt::CTRL + Qt::SHIFT + Qt::Key_P);
     connect(subscriptAct, &QAction::triggered, this, &TextEditor::sub
+    }
 
 
